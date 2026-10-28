@@ -1,0 +1,10 @@
+{
+  "name": "puls-feedback",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Eine kleine Live-Abstimmung mit Node.js, SQLite und Socket.IO.",
+  "engines": { "node": ">=24" },
+  "scripts": { "start": "node server.mjs" },
+  "dependencies": { "socket.io": "4.8.4" }
+}
