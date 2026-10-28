@@ -48,6 +48,8 @@ Das eigenständige Puls-Design orientiert sich an der visuellen Sprache von [fhg
 
 Die variable Roboto-Schrift wird lokal ausgeliefert, ohne Anfragen an externe Font-Dienste. Quelle: [Fontsource Variable Roboto 5.2.8](https://www.npmjs.com/package/@fontsource-variable/roboto/v/5.2.8), Datei `roboto-latin-wght-normal.woff2`. Die SIL Open Font License liegt in `public/fonts/OFL.txt`. Startseite, Moderation, Teilnahme- und Beameransicht verwenden dieselben Designvariablen in `public/style.css`.
 
+Unter `/autor` stellt eine im Footer verlinkte Autorenseite Benjamin Hanimann vor. Das bereitgestellte Porträt liegt unverändert in `public/images/benjamin-hanimann.jpg` und wird lokal ausgeliefert.
+
 Socket.IO-Events: `poll:join`, `poll:vote`, `poll:update`, `poll:presence`. Beim Wiederverbinden lädt der Browser den aktuellen Stand erneut aus SQLite.
 
 ## Weiterentwicklung am Abend

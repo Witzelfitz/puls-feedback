@@ -7,6 +7,8 @@ const screen = location.pathname.startsWith('/r/');
 document.body.classList.toggle('screen', screen);
 if (location.pathname === '/') document.querySelector('#joinLink').setAttribute('aria-current', 'page');
 if (location.pathname === '/host') document.querySelector('#hostLink').setAttribute('aria-current', 'page');
+const authorPage = /^\/autor\/?$/.test(location.pathname);
+if (authorPage) document.querySelector('#authorLink').setAttribute('aria-current', 'page');
 
 function el(tag, text, className) { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (className) e.className = className; return e; }
 function toast(message) { const t = $('#toast'); t.textContent = message; t.classList.add('show'); clearTimeout(noticeTimer); noticeTimer = setTimeout(() => t.classList.remove('show'), 3500); }
@@ -42,6 +44,22 @@ function home() {
     step.append(el('span', '0' + (index + 1), 'step-number'), text); steps.append(step);
   });
   app.append(hero, steps);
+}
+function author() {
+  document.title = 'Benjamin Hanimann · Autor von Puls';
+  app.replaceChildren();
+  const profile = el('article', undefined, 'author-profile');
+  const portrait = el('figure', undefined, 'author-portrait');
+  const photo = el('img'); photo.src = '/images/benjamin-hanimann.jpg'; photo.alt = 'Porträt von Benjamin Hanimann'; photo.width = 709; photo.height = 709;
+  portrait.append(photo, el('figcaption', 'Benjamin Hanimann · Witzelfitz Consulting GmbH'));
+  const biography = el('div', undefined, 'author-biography');
+  biography.append(el('div', 'Über den Autor', 'eyebrow'), el('h1', 'Benjamin Hanimann'), el('p', 'Ein Projekt von Witzelfitz Consulting GmbH.', 'lead'), el('p', 'Puls bringt Meinungen zusammen. Eine Frage stellen, den Code teilen und gemeinsam sehen, was eine Gruppe denkt – direkt, unkompliziert und live.'));
+  const note = el('div', undefined, 'author-note');
+  note.append(el('h2', 'Eine Frage. Alle Stimmen.'), el('p', 'Ob im Unterricht, im Workshop oder bei einer Veranstaltung: Puls schafft Raum für Feedback und macht unterschiedliche Perspektiven sichtbar.'));
+  const links = el('div', undefined, 'author-actions');
+  const contact = el('a', 'Kontakt aufnehmen ↗', 'button'); contact.href = 'mailto:hello@witzelfitz-consulting.ch';
+  const website = el('a', 'Witzelfitz Consulting ↗', 'author-website'); website.href = 'https://witzelfitz-consulting.ch';
+  links.append(contact, website); biography.append(note, links); profile.append(portrait, biography); app.append(profile);
 }
 async function host() {
   try {
@@ -120,4 +138,4 @@ socket.on('connect', () => { connection(); if (code && poll) { api('/api/polls/'
 socket.on('disconnect', () => { connection(); if (poll) updatePoll(poll); });
 socket.on('poll:update', p => updatePoll(p));
 socket.on('poll:presence', data => { deviceCount = data.devices; if (poll) updateText(); });
-if (code) loadPoll(); else if (location.pathname === '/host') host(); else home();
+if (code) loadPoll(); else if (location.pathname === '/host') host(); else if (authorPage) author(); else home();
