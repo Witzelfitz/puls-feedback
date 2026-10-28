@@ -38,6 +38,12 @@ Die SQLite-Datei, WAL-Dateien und lokal erzeugte PIN liegen im Datenordner. Der 
 - `Dockerfile`: Container für Coolify.
 - `data/`: laufende Daten, in Git und Docker-Build ausgeschlossen.
 
+## Gestaltung
+
+Das eigenständige Puls-Design orientiert sich an der visuellen Sprache von [fhgr.ch](https://www.fhgr.ch/): viel Weissraum, leichte Roboto-Typografie, Schiefergrau (`#38484e`), Petrolgrün (`#008c80`) und helle Flächen (`#eef3f5`). FHGR-Logos und geschützte Bildassets werden nicht übernommen.
+
+Die variable Roboto-Schrift wird lokal ausgeliefert, ohne Anfragen an externe Font-Dienste. Quelle: [Fontsource Variable Roboto 5.2.8](https://www.npmjs.com/package/@fontsource-variable/roboto/v/5.2.8), Datei `roboto-latin-wght-normal.woff2`. Die SIL Open Font License liegt in `public/fonts/OFL.txt`. Startseite, Moderation, Teilnahme- und Beameransicht verwenden dieselben Designvariablen in `public/style.css`.
+
 Socket.IO-Events: `poll:join`, `poll:vote`, `poll:update`, `poll:presence`. Beim Wiederverbinden lädt der Browser den aktuellen Stand erneut aus SQLite.
 
 ## Weiterentwicklung am Abend

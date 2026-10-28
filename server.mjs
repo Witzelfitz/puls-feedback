@@ -104,7 +104,7 @@ const server = createServer(async (req, res) => {
     }
     const pages = ['/', '/host'];
     const appPage = pages.includes(url.pathname) || /^\/(p|r)\/[A-Z2-9]{5}$/.test(url.pathname);
-    const assets = { '/style.css': 'text/css', '/app.js': 'text/javascript' };
+    const assets = { '/style.css': 'text/css', '/app.js': 'text/javascript', '/fonts/roboto-latin-wght-normal.woff2': 'font/woff2' };
     if (!appPage && !assets[url.pathname]) return res.writeHead(404).end('Nicht gefunden');
     if (appPage && !/^[a-f0-9-]{36}$/.test(cookies(req).voter || '')) setCookie(req, res, 'voter', randomUUID());
     const file = path.join(ROOT, 'public', appPage ? 'index.html' : url.pathname.slice(1));

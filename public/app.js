@@ -5,6 +5,8 @@ let poll, myVote = null, busy = false, deviceCount = 0, noticeTimer;
 const code = location.pathname.match(/^\/(p|r)\/([A-Z2-9]{5})$/)?.[2];
 const screen = location.pathname.startsWith('/r/');
 document.body.classList.toggle('screen', screen);
+if (location.pathname === '/') document.querySelector('#joinLink').setAttribute('aria-current', 'page');
+if (location.pathname === '/host') document.querySelector('#hostLink').setAttribute('aria-current', 'page');
 
 function el(tag, text, className) { const e = document.createElement(tag); if (text !== undefined) e.textContent = text; if (className) e.className = className; return e; }
 function toast(message) { const t = $('#toast'); t.textContent = message; t.classList.add('show'); clearTimeout(noticeTimer); noticeTimer = setTimeout(() => t.classList.remove('show'), 3500); }
@@ -17,13 +19,29 @@ function intro(kicker, title, description) {
   if (description) app.append(el('p', description, 'lead'));
 }
 function home() {
-  intro('Deine Meinung zählt', 'Kurz gefragt.\nLive geantwortet.', 'Gib den Code ein und mach mit. Die Ergebnisse entstehen in diesem Moment.');
-  $('h1').style.whiteSpace = 'pre-line';
+  app.replaceChildren();
+  const hero = el('section', undefined, 'home-hero');
+  const introduction = el('div');
+  const title = el('h1'); title.append(document.createTextNode('Kurz gefragt.'), el('br'), el('span', 'Live geantwortet.'));
+  introduction.append(el('div', 'Deine Meinung zählt', 'eyebrow'), title, el('p', 'Eine Frage, viele Perspektiven. Teile deine Meinung und sieh live, was die anderen denken.', 'lead'));
+  const panel = el('section', undefined, 'join-panel');
+  panel.setAttribute('aria-labelledby', 'joinTitle');
+  const panelTitle = el('h2', 'Jetzt mitmachen'); panelTitle.id = 'joinTitle';
+  panel.append(panelTitle, el('p', 'Gib den fünfstelligen Code deiner Abstimmung ein.', 'muted'));
   const form = el('form', undefined, 'join');
-  const input = el('input'); input.placeholder = 'CODE'; input.maxLength = 5; input.required = true; input.autocomplete = 'off'; input.setAttribute('aria-label', 'Abstimmungscode');
-  const button = el('button', 'Mitmachen ↗'); form.append(input, button);
+  const label = el('label', 'Abstimmungscode'); label.htmlFor = 'joinCode';
+  const input = el('input'); input.id = 'joinCode'; input.placeholder = 'CODE'; input.maxLength = 5; input.required = true; input.autocomplete = 'off'; input.autocapitalize = 'characters'; input.spellcheck = false;
+  const button = el('button', 'Mitmachen ↗'); form.append(label, input, button);
   form.onsubmit = async e => { e.preventDefault(); const c = input.value.trim().toUpperCase(); try { await api('/api/polls/' + encodeURIComponent(c)); location.href = '/p/' + c; } catch (err) { toast(err.message); } };
-  app.append(form, el('p', 'Kein Konto. Kein Name. Einfach abstimmen.', 'muted'));
+  panel.append(form, el('p', 'Kein Konto. Kein Name. Einfach abstimmen.', 'muted privacy'));
+  hero.append(introduction, panel);
+  const steps = el('section', undefined, 'steps'); steps.setAttribute('aria-label', 'So funktioniert es');
+  [['Code eingeben', 'Die Moderation teilt den Code mit dir.'], ['Meinung teilen', 'Wähle die Antwort, die zu dir passt.'], ['Ergebnisse erleben', 'Alle Stimmen werden live sichtbar.']].forEach(([heading, description], index) => {
+    const step = el('div', undefined, 'step'); const text = el('div');
+    text.append(el('h3', heading), el('p', description));
+    step.append(el('span', '0' + (index + 1), 'step-number'), text); steps.append(step);
+  });
+  app.append(hero, steps);
 }
 async function host() {
   try {
@@ -42,7 +60,7 @@ async function host() {
     }
     grid.append(left, right); app.append(grid);
   } catch {
-    intro('Moderation', 'Dein Platz\nam Mischpult.', 'Die Moderations-PIN findest du im Terminal oder in deiner Server-Konfiguration.'); $('h1').style.whiteSpace = 'pre-line';
+    intro('Moderation', 'Raum für deine Fragen.', 'Melde dich mit deiner Moderations-PIN an, um Abstimmungen zu erstellen und zu begleiten.');
     const form = el('form', undefined, 'form narrow'); const label = el('label', 'Moderations-PIN'); label.htmlFor = 'pin'; const pin = el('input'); pin.id = 'pin'; pin.type = 'password'; pin.required = true; pin.autocomplete = 'current-password';
     const b = el('button', 'Los geht’s ↗'); form.append(label, pin, b); form.onsubmit = async e => { e.preventDefault(); b.disabled = true; try { await api('/api/login', { pin: pin.value }); host(); } catch (err) { toast(err.message); b.disabled = false; } }; app.append(form);
   }

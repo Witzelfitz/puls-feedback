@@ -1,1 +1,23 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f5f1"><title>Puls · Live-Feedback</title><link rel="stylesheet" href="/style.css"><script src="/socket.io/socket.io.js" defer></script><script src="/app.js" defer></script></head><body><header><a class="brand" href="/" aria-label="Puls Startseite">puls<span>•</span></a><a id="hostLink" href="/host">Moderation <span>↗</span></a></header><main id="app"><p class="muted">Einen Moment …</p></main><footer><span>Eine Frage. Alle Stimmen.</span><span>Live mit Socket.IO</span></footer><div id="toast" role="status" aria-live="polite"></div></body></html>
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#008c80">
+  <title>Puls · Live-Feedback</title>
+  <link rel="preload" href="/fonts/roboto-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/socket.io/socket.io.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#app">Zum Inhalt</a>
+  <header>
+    <a class="brand" href="/" aria-label="Puls Startseite"><span class="brand-mark" aria-hidden="true">p.</span><span class="brand-name">puls<span class="brand-description">Live-Feedback</span></span></a>
+    <nav aria-label="Hauptnavigation"><a id="joinLink" href="/">Mitmachen</a><a id="hostLink" href="/host">Moderation <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="app" tabindex="-1"><p class="muted">Einen Moment …</p></main>
+  <footer><a class="footer-brand" href="/">puls · Live-Feedback</a><span>Eine Frage. Alle Stimmen.</span></footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
