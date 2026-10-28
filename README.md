@@ -25,7 +25,7 @@ Eine Stimme pro Browser. Eine Änderung der Wahl ersetzt die alte Stimme. Privat
 - **DATA_DIR=/app/data** und persistentes Volume auf **/app/data**. Der Benutzer `node` im Container muss dort schreiben dürfen.
 - Eine Instanz. SQLite braucht hier weder eine eigene Datenbankressource noch einen Datenbankport.
 - Eigene HTTPS-Domain setzen. Coolifys Proxy führt auch die Socket.IO-Verbindung über denselben Port.
-- Healthcheck: **GET /health**. Das Dockerfile enthält bereits einen Check.
+- Healthcheck in Coolify: Typ **Befehl / CMD**, Befehl **node /app/healthcheck.mjs**. Der Check fragt **GET /health** ab und benötigt kein curl oder wget. Das Dockerfile enthält denselben Check.
 
 Die SQLite-Datei, WAL-Dateien und lokal erzeugte PIN liegen im Datenordner. Der gesamte Ordner muss ein Redeployment überleben. Ohne gesetztes ADMIN_PIN erzeugt die App einmalig eine PIN und speichert sie in diesem Ordner. Moderationssitzungen gelten bis zum Serverneustart, danach erneut anmelden.
 
