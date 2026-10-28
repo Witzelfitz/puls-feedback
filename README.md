@@ -27,6 +27,10 @@ Eine Stimme pro Browser. Eine Änderung der Wahl ersetzt die alte Stimme. Privat
 - Eigene HTTPS-Domain setzen. Coolifys Proxy führt auch die Socket.IO-Verbindung über denselben Port.
 - Healthcheck in Coolify: Typ **Befehl / CMD**, Befehl **node /app/healthcheck.mjs**. Der Check fragt **GET /health** ab und benötigt kein curl oder wget. Das Dockerfile enthält denselben Check.
 
+### Auto-Deploy
+
+Für dieses Repository ist Auto-Deploy auf Branch `main` aktiviert. Ein signierter GitHub-Push-Webhook benachrichtigt Coolify; Pushes auf `main` starten dadurch automatisch ein Deployment. Der Webhook-Secret bleibt in GitHub und Coolify, nicht im Repository. Andere Branches werden nicht produktiv ausgerollt.
+
 Die SQLite-Datei, WAL-Dateien und lokal erzeugte PIN liegen im Datenordner. Der gesamte Ordner muss ein Redeployment überleben. Ohne gesetztes ADMIN_PIN erzeugt die App einmalig eine PIN und speichert sie in diesem Ordner. Moderationssitzungen gelten bis zum Serverneustart, danach erneut anmelden.
 
 ## Was liegt wo?
